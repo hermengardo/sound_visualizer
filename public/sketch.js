@@ -1,38 +1,64 @@
 var song;
-var amp;
+var fft;
 var button;
-
-function toggleSong() {
-	if (song.isPlaying()) {
-		song.pause();
-	}
-	else {
-		song.play();
-	}
-}
+var xCoords = [];
+var displacements = [];
 
 function preload() {
 	song = loadSound('sample/cardinal.mp3');
 }
 
-function setup(){
-	createCanvas(200, 200);
-	button = createButton("Tocar");
-	button.mousePressed(toggleSong);
-	button2 = createButton("Pular");
-	button2.mousePressed(jumpButton);
-	song.play();
-	amp = new p5.Amplitude();
-}
+function setup () {
+	createCanvas(256, 256);
+	colorMode(HSB);
+	angleMode(DEGREES);
+	button = createButton('play');
+	button.mousePressed(toggle);
+	fft = new p5.FFT(0.9, 16);
 
-function jumpButton(){
-	var len = song.duration();
-	song.jump(random(len));
+	// Initialize y-coordinates array
+	var numPoints = width;
+	var pointSpacing = width/numPoints;
+	for (var i = 0; i < 16; i++) {
+		xCoords[i] = [];
+		displacements[i] = map(i, 0, 15, 0, 50);
+		for (var j = 0; j < numPoints; j++) {
+		  xCoords[i][j] = j * pointSpacing;
+		}
+	}
+} 
+
+function toggle() {
+	if (song.isPlaying()) {
+		song.pause();
+	}
+	else {
+		song.play();
+		draw();
+	}
 }
 
 function draw() {
-	background(0);
-	var vol = amp.getLevel();
-	ellipse(100, 100, vol*200, vol*200);
-	console.log(vol);
+  background(0);
+  noFill();
+  var spectrum = fft.analyze();
+  var spacing = height/16;
+  var numPoints = width;
+  var pointSpacing = width/numPoints;
+  var amplitudeFactor = 5;
+  for (var i = 0; i < 16; i++) {
+    var amplitude = spectrum[i];
+    var displacement = map(amplitude, 0, 255, 0, amplitudeFactor);
+    displacements[i] = lerp(displacements[i], displacement, 0.1);
+    stroke(255);
+    beginShape();
+    curveVertex(xCoords[i][0], spacing * i);
+    for (var j = 1; j < numPoints-1; j++) {
+      var x = xCoords[i][j];
+      var y = spacing * i + displacements[i] * sin(map(x, 0, width, 0, 360));
+      curveVertex(x, y);
+    }
+    curveVertex(xCoords[i][numPoints-1], spacing * i);
+    endShape();
+  }
 }
