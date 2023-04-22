@@ -3,6 +3,8 @@ var fft;
 var button;
 var xCoords = [];
 var displacements = [];
+var finalPositions = []; // Array to store the final positions of the lines
+
 
 function preload() {
   song = loadSound('sample/cardinal.mp3');
@@ -31,10 +33,18 @@ function setup () {
 function toggle() {
   if (song.isPlaying()) {
     song.pause();
+    noLoop(); // Stop the animation
+    finalPositions = []; // Clear the final positions array
+    for (var i = 0; i < 16; i++) {
+      finalPositions[i] = displacements[i]; // Store the final position of each line
+    }
+    for (var i = 0; i < 16; i++) {
+      displacements[i] = finalPositions[i]; // Set the current position of each line to the final position
+    }
   }
   else {
     song.play();
-    draw();
+    loop(); // Resume the animation
   }
 }
 
