@@ -21,6 +21,7 @@ function setup () {
   // Initialize y-coordinates array
   var numPoints = width;
   var pointSpacing = width/numPoints;
+  var spacing = height / 17; // add extra spacing for the top line
   for (var i = 0; i < 16; i++) {
     xCoords[i] = [];
     displacements[i] = 0; // Set each displacement to 0
@@ -49,26 +50,30 @@ function toggle() {
 }
 
 function draw() {
-  background(0);
-  noFill();
-  var spectrum = fft.analyze();
-  var spacing = height/16;
-  var numPoints = width;
-  var pointSpacing = width/numPoints;
-  var amplitudeFactor = 0.01;
-  for (var i = 0; i < 16; i++) {
-    var amplitude = spectrum[i];
-    var displacement = map(amplitude, 0, 255, 0, amplitudeFactor);
-    displacements[i] += displacement;
-    stroke(255);
-    beginShape();
-    curveVertex(xCoords[i][0], spacing * i);
-    for (var j = 1; j < numPoints-1; j++) {
-      var x = xCoords[i][j];
-      var y = spacing * i + displacements[i] * random(-1, 1); // Replace sin() with random()
-      curveVertex(x, y);
+  if (song.isPlaying()) {
+    background(0);
+    noFill();
+    var spectrum = fft.analyze();
+    var spacing = height / 17; // add extra spacing for the top line
+    var numPoints = width;
+    var pointSpacing = width/numPoints;
+    var amplitudeFactor = 0.01;
+    for (var i = 0; i < 16; i++) {
+      var amplitude = spectrum[i];
+      var displacement = map(amplitude, 0, 255, 0, amplitudeFactor);
+      displacements[i] += displacement;
+      stroke(255);
+      beginShape();
+      curveVertex(xCoords[i][0], spacing * (i+1)); // add extra spacing for the top line
+      for (var j = 1; j < numPoints-1; j++) {
+        var x = xCoords[i][j];
+        var y = spacing * (i+1) + displacements[i] * random(-1, 1); // Replace sin() with random()
+        curveVertex(x, y);
+      }
+      curveVertex(xCoords[i][numPoints-1], spacing * (i+1));
+      endShape();
     }
-    curveVertex(xCoords[i][numPoints-1], spacing * i);
-    endShape();
+  } else {
+    noLoop();
   }
 }
