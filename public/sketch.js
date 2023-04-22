@@ -7,11 +7,11 @@ var finalPositions = []; // Array to store the final positions of the lines
 
 
 function preload() {
-  song = loadSound('sample/cardinal.mp3');
+  song = loadSound('sample/caminho-do-crusp-ônibus.mp3');
 }
 
 function setup () {
-  createCanvas(256, 256);
+  createCanvas(1024, 1024);
   colorMode(HSB);
   angleMode(DEGREES);
   button = createButton('play');
@@ -57,7 +57,7 @@ function draw() {
     var spacing = height / 17; // add extra spacing for the top line
     var numPoints = width;
     var pointSpacing = width/numPoints;
-    var amplitudeFactor = 0.01;
+    var amplitudeFactor = 0.04;
     for (var i = 0; i < 16; i++) {
       var amplitude = spectrum[i];
       var displacement = map(amplitude, 0, 255, 0, amplitudeFactor);
@@ -67,7 +67,7 @@ function draw() {
       curveVertex(xCoords[i][0], spacing * (i+1)); // add extra spacing for the top line
       for (var j = 1; j < numPoints-1; j++) {
         var x = xCoords[i][j];
-        var y = spacing * (i+1) + displacements[i] * random(-1, 1); // Replace sin() with random()
+        var y = spacing * i + displacements[i] * sin(map(x, 0, width, 0, 360));
         curveVertex(x, y);
       }
       curveVertex(xCoords[i][numPoints-1], spacing * (i+1));
