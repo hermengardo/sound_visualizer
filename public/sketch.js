@@ -5,37 +5,35 @@ var xCoords = [];
 var displacements = [];
 
 function preload() {
-	song = loadSound('sample/cardinal.mp3');
+  song = loadSound('sample/cardinal.mp3');
 }
 
 function setup () {
-	createCanvas(256, 256);
-	colorMode(HSB);
-	angleMode(DEGREES);
-	button = createButton('play');
-	button.mousePressed(toggle);
-	fft = new p5.FFT(0.9, 16);
+  createCanvas(256, 256);
+  colorMode(HSB);
+  angleMode(DEGREES);
+  button = createButton('play');
+  button.mousePressed(toggle);
+  fft = new p5.FFT(0.9, 16);
 
-	// Initialize y-coordinates array
-	var numPoints = width;
-	var pointSpacing = width/numPoints;
-	for (var i = 0; i < 16; i++) {
-		xCoords[i] = [];
-		displacements[i] = map(i, 0, 15, 0, 50);
-		for (var j = 0; j < numPoints; j++) {
-		  xCoords[i][j] = j * pointSpacing;
-		}
-	}
+  // Initialize y-coordinates array
+  var numPoints = width;
+  var pointSpacing = width/numPoints;
+  for (var i = 0; i < 16; i++) {
+    xCoords[i] = [];
+    displacements[i] = 0; // set initial displacement to zero
+    for (var j = 0; j < numPoints; j++) {
+      xCoords[i][j] = j * pointSpacing;
+    }
+  }
 } 
 
 function toggle() {
-	if (song.isPlaying()) {
-		song.pause();
-	}
-	else {
-		song.play();
-		draw();
-	}
+  if (song.isPlaying()) {
+    song.pause();
+  } else {
+    song.play();
+  }
 }
 
 function draw() {
