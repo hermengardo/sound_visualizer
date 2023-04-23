@@ -2,9 +2,6 @@ var song;
 var fft;
 var button;
 var xCoords = [];
-var displacements = [];
-var finalPositions = []; // Array to store the final positions of the lines
-
 
 function preload() {
   song = loadSound('sample/caminho-do-crusp-ônibus.mp3');
@@ -12,21 +9,15 @@ function preload() {
 
 function setup () {
   createCanvas(1024, 1024);
-  colorMode(HSB);
-  angleMode(DEGREES);
-  button = createButton('play');
+  button = createButton('Play');
   button.mousePressed(toggle);
-  fft = new p5.FFT(0.9, 16);
-
-  // Initialize y-coordinates array
-  var numPoints = width;
-  var pointSpacing = width/numPoints;
-  var spacing = height / 17; // add extra spacing for the top line
-  for (var i = 0; i < 16; i++) {
+  fft = new p5.FFT(0.9, 32);
+  // Initialize x-coordinates array
+  var spacing = height / 32; // distribute the lines equally across the canvas
+  for (var i = 0; i < 32; i++) { // Distribute the lines
     xCoords[i] = [];
-    displacements[i] = 0; // Set each displacement to 0
-    for (var j = 0; j < numPoints; j++) {
-      xCoords[i][j] = j * pointSpacing;
+    for (var j = 0; j < width; j++) {
+      xCoords[i][j] = j
     }
   }
 }
@@ -35,13 +26,6 @@ function toggle() {
   if (song.isPlaying()) {
     song.pause();
     noLoop(); // Stop the animation
-    finalPositions = []; // Clear the final positions array
-    for (var i = 0; i < 16; i++) {
-      finalPositions[i] = displacements[i]; // Store the final position of each line
-    }
-    for (var i = 0; i < 16; i++) {
-      displacements[i] = finalPositions[i]; // Set the current position of each line to the final position
-    }
   }
   else {
     song.play();
@@ -54,24 +38,33 @@ function draw() {
     background(0);
     noFill();
     var spectrum = fft.analyze();
-    var spacing = height / 17; // add extra spacing for the top line
-    var numPoints = width;
-    var pointSpacing = width/numPoints;
-    var amplitudeFactor = 0.04;
-    for (var i = 0; i < 16; i++) {
+    var spacing = height / 32;
+
+    for (var i = 0; i < 32; i++) {
       var amplitude = spectrum[i];
-      var displacement = map(amplitude, 0, 255, 0, amplitudeFactor);
-      displacements[i] += displacement;
-      stroke(255);
-      beginShape();
-      curveVertex(xCoords[i][0], spacing * (i+1)); // add extra spacing for the top line
-      for (var j = 1; j < numPoints-1; j++) {
-        var x = xCoords[i][j];
-        var y = spacing * i + displacements[i] * sin(map(x, 0, width, 0, 360));
-        curveVertex(x, y);
+      var y = (spacing * i) + (height / 64); // reverse y-axis and spacing
+      var distortionFactor = 3.2;
+      var yDistortion = map(distortionFactor * amplitude, 0, 255, -spacing / 2, spacing / 2);
+      y += yDistortion;
+
+      var time = song.currentTime();
+      var x = map(time, 0, song.duration(), 0, width);
+      xCoords[i].push({x: x, y: y});
+
+      if (xCoords[i].length > 1) {
+        stroke(255);
+        strokeWeight(2);
+        noFill();
+        beginShape();
+        for (var j = 0; j < xCoords[i].length; j++) {
+          vertex(xCoords[i][j].x, xCoords[i][j].y);
+        }
+        endShape();
       }
-      curveVertex(xCoords[i][numPoints-1], spacing * (i+1));
-      endShape();
+
+      while (xCoords[i].length > 0 && xCoords[i][0].x < 0) {
+        xCoords[i].shift();
+      }
     }
   } else {
     noLoop();
