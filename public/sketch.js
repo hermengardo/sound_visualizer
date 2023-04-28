@@ -9,15 +9,11 @@ let loadingMsg;
 let distortionLegend;
 let widthSizeLegend;
 let heightSizeLegend;
-let FFTBinsSelect
+let FFTBinsSelect;
 let FFTBinsLegend;
 let smoothSlider;
 let smoothLegend;
-const xCoords = Array.from({ length: 64 }, () => []);
-
-function preload() {
-  song = loadSound('sample/cardinal.mp3');
-}
+const xCoords = new Array(1024).fill().map(() => []);
 
 function setup() {
   createCanvas(1024, 1024);
@@ -55,7 +51,7 @@ function setup() {
   smoothLegend = createDiv('FFT Smoothing');
   smoothLegend.style('color', '#fff');
   smoothLegend.position(width / 2 - 170, height / 2 + 121);
-  smoothSlider = createSlider(0, 1, 0, 0.1);
+  smoothSlider = createSlider(0, 1, 0.5, 0.1);
   smoothSlider.position(width / 2 - 50, height / 2 + 120);
 
   // FFT bins
@@ -70,7 +66,6 @@ function setup() {
     FFTBinsSelect.option(value);
   }
   FFTBinsSelect.selected(16);
-  fft = new p5.FFT(smoothSlider.value(), FFTBinsSelect.value())
   setInterval(drawSpectrum, 1000 / 60);
 }
 
@@ -79,11 +74,11 @@ function toggleSong() {
     song.pause();
     noLoop();
     playButton.html('Play');
-    fft = new p5.FFT(smoothSlider.value(), FFTBinsSelect.value())
   } else {
     song.play();
     loop();
     playButton.html('Stop');
+    fft = new p5.FFT(smoothSlider.value(), FFTBinsSelect.value())
   }
 }
 
@@ -93,7 +88,7 @@ function addSong() {
       loadingMsg = createElement('p', 'Loading song...');
       loadingMsg.style('color', '#fff');
       loadingMsg.style('text-align', 'center');
-      loadingMsg.position(width / 2 - 170, height / 2 + 100);
+      loadingMsg.position(width / 2 - 170, height / 2 + 180);
       song = loadSound(file.data, function() {
         console.log('Song loaded successfully');
         playButton.html('Play');
@@ -121,7 +116,7 @@ function drawSpectrum() {
   }
 
   const spectrum = fft.analyze();
-  const spacing = height / FFTBinsSelect.value();
+  
   noFill();
   stroke(255);
   strokeWeight(1);
@@ -129,7 +124,10 @@ function drawSpectrum() {
   const distortionFactor = distortionSlider.value();
   const widthSize = widthSizeSlider.value();
   const heightSize = heightSizeSlider.value();
-  resizeCanvas(width, heightSize);
+  resizeCanvas(widthSize, heightSize);
+  
+  const numElements = spectrum.length;
+  const spacing = heightSize / numElements;
   background(0);
 
   // gradually reduce opacity of buttons while song is playing
@@ -141,9 +139,13 @@ function drawSpectrum() {
   distortionLegend.style('opacity', distortionLegend.style('opacity') - 0.01);
   widthSizeLegend.style('opacity', widthSizeLegend.style('opacity') - 0.01);
   heightSizeLegend.style('opacity', heightSizeLegend.style('opacity') - 0.01);
-    
+  FFTBinsLegend.style('opacity', FFTBinsLegend.style('opacity') - 0.01);
+  FFTBinsSelect.style('opacity', FFTBinsSelect.style('opacity') - 0.01);
+  smoothSlider.style('opacity', smoothSlider.style('opacity') - 0.01);
+  smoothLegend.style('opacity', smoothLegend.style('opacity') - 0.01);
+
   spectrum.forEach((amplitude, i) => {
-    const y = (spacing * i) + (height / FFTBinsSelect.value());
+    const y = spacing * i;
     const yDistortion = map(amplitude, 0, 255, spacing * distortionFactor, -spacing * distortionFactor);
     const time = song.currentTime();
     const x = map(time, 0, song.duration(), 0, width);
@@ -163,3 +165,4 @@ function drawSpectrum() {
     }
   });
 }
+
