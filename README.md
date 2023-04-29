@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/badge/main)](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/overview/main)
+
 ![](./Sketches/sample.gif)
 
 # **Introduction**
