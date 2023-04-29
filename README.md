@@ -3,7 +3,7 @@
 ![](./Sketches/sample.gif)
 
 # **Introduction**
-Javascript application that allows the user to visualize audio. The user can upload an audio file into the application, then play it back while viewing a real-time spectrum visualization. The visualization updates continuously as the audio plays, providing an interactive experience.
+- Javascript application that allows the user to visualize audio. The user can upload an audio file into the application, then play it back while viewing a real-time spectrum visualization. The visualization updates continuously as the audio plays, providing an interactive experience.
 
 # **Instalation**
 1. Clone the repository to your local machine by running the following command in your terminal:
