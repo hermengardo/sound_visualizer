@@ -1,18 +1,19 @@
-# Introduction
-![](./sketches/sample.gif)
-- JavaScript application for visualizing the spectrum of an audio file. The user can load an audio file, play it, and see the spectrum visualization that updates in real time. It uses the p5.js library to implement the visualization.
+![](./Sketches/sample.gif)
 
-# Instalation
-1. Clone this repository
+# **Introduction**
+Javascript application that allows the user to visualize audio. The user can upload an audio file into the application, then play it back while viewing a real-time spectrum visualization. The visualization updates continuously as the audio plays, providing an interactive experience for the user.
+
+# **Instalation**
+1. Clone the repository to your local machine by running the following command in your terminal:
 ```sh
 git clone https://github.com/hermengardo/MTP_facebook_group_scraper.git
 ```
-2. Run the app.js
+2. Navigate to the directory containing the application by running:
 ```sh
 cd DIRECTORY_PATH
 node app.js
 ```
-3. Go to localhost:8000 on your browser
+3. Open your web browser and go to localhost:8000.
 4. Click the "Load" button and select an audio file from your computer.
-5. Wait for the song to load.
-6. Use the sliders to adjust the distortion factor, canvas' width and height size, FFT smoothing, and number of FFT bins.
+5. Wait for the audio file to load.
+6. You can use the sliders on the page to adjust various parameters of the visualization. Adjust these parameters to your preference to get the best visualization of the audio file.
