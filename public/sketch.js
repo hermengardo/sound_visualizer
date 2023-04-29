@@ -9,11 +9,15 @@ let loadingMsg;
 let distortionLegend;
 let widthSizeLegend;
 let heightSizeLegend;
-let FFTBinsSelect;
+let FFTBinsSelect
 let FFTBinsLegend;
 let smoothSlider;
 let smoothLegend;
 const xCoords = new Array(1024).fill().map(() => []);
+
+function preload() {
+  song = loadSound('sample/cardinal.mp3');
+}
 
 function setup() {
   createCanvas(1024, 1024);
@@ -66,7 +70,7 @@ function setup() {
     FFTBinsSelect.option(value);
   }
   FFTBinsSelect.selected(16);
-  setInterval(drawSpectrum, 1000 / 60);
+  setInterval(drawSpectrum, 30);
 }
 
 function toggleSong() {
