@@ -16,4 +16,4 @@ node app.js
 3. Open your web browser and go to localhost:8000.
 4. Click the "Load" button and select an audio file from your computer.
 5. Wait for the audio file to load.
-6. You can use the sliders on the page to adjust various parameters of the visualization. Adjust these parameters to your preference to get the best visualization of the audio file.
+6. Adjust the parameters to get the best visualization of the audio file.
