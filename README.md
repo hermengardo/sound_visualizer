@@ -1,6 +1,5 @@
-# **sound_visualizer**
-![P5.js](https://img.shields.io/badge/p5%20js-ED225D?style=for-the-badge&logo=p5dotjs&logoColor=white)<br>
-[![CodeFactor](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/badge/main)](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/overview/main)<br>[![Actively Maintained](https://img.shields.io/badge/Maintenance%20Level-Actively%20Maintained-green.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
+# **sound_visualizer**  ![P5.js](https://img.shields.io/badge/p5%20js-ED225D?style=for-the-badge&logo=p5dotjs&logoColor=white)
+[![CodeFactor](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/badge/main)](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/overview/main) [![Actively Maintained](https://img.shields.io/badge/Maintenance%20Level-Actively%20Maintained-green.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 
 ![](./Sketches/sample.gif)
 
