@@ -1,11 +1,13 @@
-[![CodeFactor](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/badge/main)](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/overview/main)
+# **sound_visualizer**
+![P5.js](https://img.shields.io/badge/p5%20js-ED225D?style=for-the-badge&logo=p5dotjs&logoColor=white)<br>
+[![CodeFactor](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/badge/main)](https://www.codefactor.io/repository/github/hermengardo/sound_visualizer/overview/main)<br>[![Actively Maintained](https://img.shields.io/badge/Maintenance%20Level-Actively%20Maintained-green.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 
 ![](./Sketches/sample.gif)
 
-# **Introduction**
+## **Introduction**
 - Javascript application that allows the user to visualize audio. The user can upload an audio file into the application, then play it back while viewing a real-time spectrum visualization. The visualization updates continuously as the audio plays, providing an interactive experience.
 
-# **Instalation**
+## **Instalation**
 1. Clone the repository to your local machine by running the following command in your terminal:
 ```sh
 git clone https://github.com/hermengardo/MTP_facebook_group_scraper.git
